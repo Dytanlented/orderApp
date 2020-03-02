@@ -1,6 +1,7 @@
 package ca.sfu.sell.repository;
 
 import ca.sfu.sell.dataobject.ProductInfo;
+import ca.sfu.sell.enums.ProductStatusEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
