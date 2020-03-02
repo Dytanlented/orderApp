@@ -12,3 +12,5 @@ spring:
 #  pattern:
 #    console: "%d - %msg%n"
 #  path: /Users/dante/Desktop/log/
+server:
+  context-path: /sell
