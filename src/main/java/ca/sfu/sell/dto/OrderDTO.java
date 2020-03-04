@@ -1,24 +1,18 @@
-package ca.sfu.sell.dataobject;
+package ca.sfu.sell.dto;
 
-
+import ca.sfu.sell.dataobject.OrderDetail;
 import ca.sfu.sell.enums.OrderStatusEnum;
 import ca.sfu.sell.enums.PayStatusEnum;
 import lombok.Data;
-import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Transient;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-@Entity
 @Data
-@DynamicUpdate
-public class OrderMaster {
+public class OrderDTO {
     // order id
-    @Id
     private String orderId;
 
     // buyer name
@@ -37,10 +31,10 @@ public class OrderMaster {
     private BigDecimal orderAmount;
 
     // order status,default new order
-    private Integer orderStatus = OrderStatusEnum.NEW.getCode();
+    private Integer orderStatus ;
 
     // payment status, default unpaid
-    private Integer payStatus = PayStatusEnum.WAIT.getCode();
+    private Integer payStatus ;
 
     //createTime
     private Date createTime;
@@ -48,5 +42,5 @@ public class OrderMaster {
     //updateTime
     private Date updateTime;
 
-
+    List<OrderDetail> orderDetailList;
 }
