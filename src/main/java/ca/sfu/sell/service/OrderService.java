@@ -22,5 +22,5 @@ public interface OrderService {
     OrderDTO finish(OrderDTO orderDTO);
 
     /** pay an order */
-    OrderDTO paid(OrderDTO orderDTO);
+    OrderDTO pay(OrderDTO orderDTO);
 }

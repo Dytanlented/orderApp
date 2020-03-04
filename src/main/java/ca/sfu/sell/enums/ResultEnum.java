@@ -12,6 +12,7 @@ public enum ResultEnum {
     ORDER_STATUS_ERROR(14,"Order status is not right"),
     ORDER_UPDATE_FAIL(15,"Update order failed"),
     ORDER_DETAIL_EMPTY(16,"Order detail is empty"),
+    PAY_STATUS_ERROR(17,"Already paid"),
     ;
 
     private Integer code;

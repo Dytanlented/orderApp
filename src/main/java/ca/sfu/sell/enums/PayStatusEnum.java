@@ -7,7 +7,7 @@ import lombok.Getter;
 public enum PayStatusEnum {
 
     WAIT(0,"Unpaid"),
-    SUCCESs(1,"Paid"),
+    SUCCESS(1,"Paid"),
     ;
 
 

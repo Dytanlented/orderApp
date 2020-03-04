@@ -3,7 +3,9 @@ package ca.sfu.sell.service.impl;
 import ca.sfu.sell.dataobject.OrderDetail;
 import ca.sfu.sell.dto.OrderDTO;
 import ca.sfu.sell.enums.OrderStatusEnum;
+import ca.sfu.sell.enums.PayStatusEnum;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.weaver.ast.Or;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -77,9 +79,15 @@ public class OrderServiceImplTest {
 
     @Test
     public void finish() {
+        OrderDTO orderDTO = orderService.findOne(ORDER_ID);
+        OrderDTO result = orderService.finish(orderDTO);
+        Assert.assertEquals(result.getOrderStatus(),OrderStatusEnum.FINISHED.getCode());
     }
 
     @Test
-    public void paid() {
+    public void pay() {
+        OrderDTO orderDTO = orderService.findOne(ORDER_ID);
+        OrderDTO result = orderService.pay(orderDTO);
+        Assert.assertEquals(result.getPayStatus(), PayStatusEnum.SUCCESS.getCode());
     }
 }

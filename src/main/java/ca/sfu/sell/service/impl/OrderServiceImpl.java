@@ -149,7 +149,7 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.toList());
         productService.increaseStock(cartDTOList);
         //if paid, refund
-        if(orderDTO.getPayStatus().equals(PayStatusEnum.SUCCESs)){
+        if(orderDTO.getPayStatus().equals(PayStatusEnum.SUCCESS)){
             //TODO
         }
 
@@ -157,12 +157,48 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public OrderDTO finish(OrderDTO orderDTO) {
-        return null;
+        //check order status
+        if(!orderDTO.getOrderStatus().equals(OrderStatusEnum.NEW.getCode())){
+            log.error("[finish order failed] order status is not right, orderStatus={},orderId={}",orderDTO.getOrderStatus(),orderDTO.getOrderId());
+            throw  new SellException(ResultEnum.ORDER_STATUS_ERROR);
+        }
+
+        //modify order status
+        orderDTO.setOrderStatus(OrderStatusEnum.FINISHED.getCode());
+        OrderMaster orderMaster = new OrderMaster();
+        BeanUtils.copyProperties(orderDTO,orderMaster);
+        OrderMaster updateResult = orderMasterRepository.save(orderMaster);
+        if(updateResult==null){
+            log.error("finish order failed, orderMaster={}",orderMaster);
+            throw new SellException(ResultEnum.ORDER_UPDATE_FAIL);
+        }
+
+        return orderDTO;
     }
 
     @Override
-    public OrderDTO paid(OrderDTO orderDTO) {
-        return null;
+    @Transactional
+    public OrderDTO pay(OrderDTO orderDTO) {
+        //check order status
+        if(!orderDTO.getOrderStatus().equals(OrderStatusEnum.NEW.getCode())){
+            log.error("[pay order failed] order status is not right, orderStatus={},orderId={}",orderDTO.getOrderStatus(),orderDTO.getOrderId());
+            throw  new SellException(ResultEnum.ORDER_STATUS_ERROR);
+        }
+
+        //check pay status
+        if(orderDTO.getPayStatus().equals(PayStatusEnum.SUCCESS.getCode())){
+            log.error("[pay order failed] pay status is not right, payStatus={},orderId={}",orderDTO.getPayStatus(),orderDTO.getOrderId());
+            throw  new SellException(ResultEnum.ORDER_STATUS_ERROR);
+        }
+
+        //modify pay status
+        orderDTO.setPayStatus(PayStatusEnum.SUCCESS.getCode());
+        OrderMaster orderMaster = new OrderMaster();
+        BeanUtils.copyProperties(orderDTO,orderMaster);
+        orderMasterRepository.save(orderMaster);
+
+        return orderDTO;
     }
 }
