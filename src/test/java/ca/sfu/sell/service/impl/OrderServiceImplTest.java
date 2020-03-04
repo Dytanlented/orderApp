@@ -2,6 +2,7 @@ package ca.sfu.sell.service.impl;
 
 import ca.sfu.sell.dataobject.OrderDetail;
 import ca.sfu.sell.dto.OrderDTO;
+import ca.sfu.sell.enums.OrderStatusEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -27,7 +28,7 @@ public class OrderServiceImplTest {
 
     private  final String BUYER_OPENID = "9981";
 
-    private final String ORDER_ID = "1583308177442655302";
+    private final String ORDER_ID = "1583308513672470653";
 
     @Test
     public void create() {
@@ -68,6 +69,10 @@ public class OrderServiceImplTest {
 
     @Test
     public void cancel() {
+        OrderDTO orderDTO = orderService.findOne(ORDER_ID);
+        OrderDTO result = orderService.cancel(orderDTO);
+        Assert.assertEquals(result.getOrderStatus(), OrderStatusEnum.CANCELED.getCode());
+
     }
 
     @Test
