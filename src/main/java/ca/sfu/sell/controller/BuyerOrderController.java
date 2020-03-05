@@ -7,6 +7,7 @@ import ca.sfu.sell.dto.OrderDTO;
 import ca.sfu.sell.enums.ResultEnum;
 import ca.sfu.sell.exception.SellException;
 import ca.sfu.sell.form.OrderForm;
+import ca.sfu.sell.service.BuyerService;
 import ca.sfu.sell.service.OrderService;
 import ca.sfu.sell.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,9 @@ public class BuyerOrderController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private BuyerService buyerService;
 
     //create an order
     @PostMapping("/create")
@@ -74,9 +78,9 @@ public class BuyerOrderController {
     @GetMapping("/detail")
     public ResultVO<OrderDTO> detail(@RequestParam("openid") String openid,
                                      @RequestParam("orderId") String orderId){
-        //TODO openid required ,in case of insecurity
 
-        OrderDTO orderDTO = orderService.findOne(orderId);
+
+        OrderDTO orderDTO = buyerService.findOrderOne(openid,orderId);
         return ResultVOUtil.success(orderDTO);
     }
 
@@ -84,12 +88,8 @@ public class BuyerOrderController {
     @PostMapping("/cancel")
     public ResultVO cancel(@RequestParam("openid") String openid,
                            @RequestParam("orderId") String orderId){
-        //TODO insecurity
 
-
-        OrderDTO orderDTO = orderService.findOne(orderId);
-        orderService.cancel(orderDTO);
-
+        buyerService.findOrderOne(openid,orderId);
         return ResultVOUtil.success();
     }
 
