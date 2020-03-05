@@ -16,8 +16,6 @@ import java.util.List;
 public class OrderFormToOrderDTOConverter {
     public static OrderDTO convert(OrderForm orderForm){
         Gson gson = new Gson();
-
-
         OrderDTO orderDTO = new OrderDTO();
 
         orderDTO.setBuyerName(orderForm.getName());
